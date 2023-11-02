@@ -26,6 +26,7 @@ import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import java.io.FileReader;
 import java.io.IOException;
+import java.lang.module.ModuleDescriptor.Exports;
 import java.util.Properties;
 
 import org.apache.commons.codec.binary.*;
@@ -33,6 +34,7 @@ import org.apache.commons.codec.binary.*;
 
 import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
+import com.relevantcodes.extentreports.LogStatus;
 
 import net.bytebuddy.agent.builder.AgentBuilder.CircularityLock.Global;
 
@@ -50,6 +52,8 @@ public class Project {
 		driver.get("http://lokbest.kappso.com/customer/account/login/");
 		System.out.println(driver.getTitle());
 		Assert.assertEquals("Login Verkäufer", driver.getTitle());
+		reports = new ExtentReports(System.getProperty("user.dir")+"/insert/ExtentReportResults.html",true);
+		test = reports.startTest("ExtentDemo");
 	}
 	@Test(priority=1)
 	public void faul_mail_send() throws IOException
@@ -68,6 +72,7 @@ public class Project {
 			
 			 end=System.currentTimeMillis();
 		        System.out.println(end);
+		        test.log(LogStatus.PASS, "Status passed");
 			 // Recipient's email ID needs to be mentioned.
 	        
 		}
@@ -133,9 +138,11 @@ public class Project {
 	            System.out.println("Sent message successfully....");
 	            end=System.currentTimeMillis();
 		        System.out.println(end);
+		      
 	        } catch (MessagingException mex) {
 	            mex.printStackTrace();
 	        }
+	        test.log(LogStatus.FAIL, "Falied");
 	        Assert.assertEquals("Marketplace Seller Dashboard", driver.getTitle());
 	       // Assert.assertEquals(exp, "Marketplace Seller Dashboard");
 	       
@@ -151,8 +158,9 @@ public class Project {
 		System.out.println("seconds="+seconds);
 		if(seconds>15)
 		{
-			Assert.assertEquals(false,"sdsd");
+			Assert.assertEquals(false,"Time should be less then 15 seconds");
 		}
+		test.log(LogStatus.PASS, "Passed");
 	}
 @AfterTest
 public void jj()

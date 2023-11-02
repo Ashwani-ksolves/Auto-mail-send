@@ -5,7 +5,6 @@
     <classes>
       <class name="prp.Project">
         <methods>
-          <include name="timecheck"/>
           <include name="St"/>
           <include name="jj"/>
           <include name="faul_mail_send"/>
